@@ -22,3 +22,5 @@ Due achievements at the end of sprint
 ### Accomplishments
 - 
 
+### Adaptations
+- 
