@@ -7,13 +7,23 @@ from flask_csp.csp import csp_header
 import logging
 
 
-# Generate a unique basic 16 key: https://acte.ltd/utils/randomkeygen
 app = Flask(__name__)
 csrf = CSRFProtect(app)
-app.secret_key = b"6HlQfWhu03PttohW;apl"
 
-app_header = {"Authorisation": "4L50v92nOgcDCYUM"}
-
+# control for the signup process, asks for username, password and email
+@app.route("/signup.html", methods=["POST", "GET"])
+def signup():
+    if request.method == "GET" and request.args.get("url"):
+        url = request.args.get("url", "")
+        return redirect(url, code=302)
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        Email = request.form["email"]
+        dbHandler.insertUser(username, password, Email)
+        return render_template("/index.html")
+    else:
+        return render_template("/signup.html")
 
 @app.route("/index.html", methods=["GET"])
 def root():
